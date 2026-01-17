@@ -1,0 +1,261 @@
+{
+  "problem_id": 2,
+  "problem": "A fair coin is flipped 10 times. What is the probability that the number of heads is exactly twice the number of tails? Express your answer as a decimal to four decimal places.",
+  "roles": {
+    "judge": "gpt-4",
+    "solvers": [
+      "claude",
+      "gemini",
+      "grok"
+    ]
+  },
+  "original_solutions": {
+    "claude": {
+      "solver_id": "claude",
+      "solution_text": "Reasoning Steps:\n                1. Let H = number of heads, T = number of tails\n                2. We have H + T = 10 (total flips)\n                3. Condition: H = 2T (heads is exactly twice tails)\n                4. Substitute: 2T + T = 10 \u2192 3T = 10 \u2192 T = 10/3 \u2248 3.333\n                5. Since T must be an integer, no integer solution exists\n                6. Therefore, probability = 0\n\n                Assumptions:\n                - Coin is fair (p=0.5 for heads)\n                - Flips are independent\n                - The condition requires exact equality (H = 2T exactly)\n\n                Final Answer: 0.0000\n                Confidence: 0.95",
+      "final_answer": "0.0000",
+      "confidence": 0.95,
+      "reasoning_steps": [
+        "Let H = number of heads, T = number of tails",
+        "We have H + T = 10 (total flips)",
+        "Condition: H = 2T (heads is exactly twice tails)",
+        "Substitute: 2T + T = 10 \u2192 3T = 10 \u2192 T = 10/3 \u2248 3.333",
+        "Since T must be an integer, no integer solution exists",
+        "Therefore, probability = 0"
+      ],
+      "assumptions": [
+        "Coin is fair (p=0.5 for heads)",
+        "Flips are independent",
+        "The condition requires exact equality (H = 2T exactly)"
+      ],
+      "timestamp": "2026-01-10T02:19:16.116141"
+    },
+    "gemini": {
+      "solver_id": "gemini",
+      "solution_text": "Reasoning Steps:\n                1. Let H = number of heads, T = number of tails\n                2. We have H + T = 10 (total flips)\n                3. Condition: H = 2T (heads is exactly twice tails)\n                4. Substitute: 2T + T = 10 \u2192 3T = 10 \u2192 T = 10/3 \u2248 3.333\n                5. Since T must be an integer, no integer solution exists\n                6. Therefore, probability = 0\n\n                Assumptions:\n                - Coin is fair (p=0.5 for heads)\n                - Flips are independent\n                - The condition requires exact equality (H = 2T exactly)\n\n                Final Answer: 0.0000\n                Confidence: 0.95",
+      "final_answer": "0.0000",
+      "confidence": 0.95,
+      "reasoning_steps": [
+        "Let H = number of heads, T = number of tails",
+        "We have H + T = 10 (total flips)",
+        "Condition: H = 2T (heads is exactly twice tails)",
+        "Substitute: 2T + T = 10 \u2192 3T = 10 \u2192 T = 10/3 \u2248 3.333",
+        "Since T must be an integer, no integer solution exists",
+        "Therefore, probability = 0"
+      ],
+      "assumptions": [
+        "Coin is fair (p=0.5 for heads)",
+        "Flips are independent",
+        "The condition requires exact equality (H = 2T exactly)"
+      ],
+      "timestamp": "2026-01-10T02:19:16.116141"
+    },
+    "grok": {
+      "solver_id": "grok",
+      "solution_text": "Reasoning Steps:\n                1. Let H = number of heads, T = number of tails\n                2. We have H + T = 10 (total flips)\n                3. Condition: H = 2T (heads is exactly twice tails)\n                4. Substitute: 2T + T = 10 \u2192 3T = 10 \u2192 T = 10/3 \u2248 3.333\n                5. Since T must be an integer, no integer solution exists\n                6. Therefore, probability = 0\n\n                Assumptions:\n                - Coin is fair (p=0.5 for heads)\n                - Flips are independent\n                - The condition requires exact equality (H = 2T exactly)\n\n                Final Answer: 0.0000\n                Confidence: 0.95",
+      "final_answer": "0.0000",
+      "confidence": 0.95,
+      "reasoning_steps": [
+        "Let H = number of heads, T = number of tails",
+        "We have H + T = 10 (total flips)",
+        "Condition: H = 2T (heads is exactly twice tails)",
+        "Substitute: 2T + T = 10 \u2192 3T = 10 \u2192 T = 10/3 \u2248 3.333",
+        "Since T must be an integer, no integer solution exists",
+        "Therefore, probability = 0"
+      ],
+      "assumptions": [
+        "Coin is fair (p=0.5 for heads)",
+        "Flips are independent",
+        "The condition requires exact equality (H = 2T exactly)"
+      ],
+      "timestamp": "2026-01-10T02:19:16.116141"
+    }
+  },
+  "peer_reviews": {
+    "claude": [
+      {
+        "reviewer_id": "gemini",
+        "solution_id": "claude",
+        "strengths": [
+          "Clear step-by-step reasoning",
+          "Correct formula application"
+        ],
+        "weaknesses": [
+          "Missing edge case verification",
+          "Could be more concise"
+        ],
+        "errors": [],
+        "suggested_changes": [
+          "Add verification for n=0 edge case",
+          "Include alternative approach"
+        ],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.8
+      },
+      {
+        "reviewer_id": "grok",
+        "solution_id": "claude",
+        "strengths": [
+          "Clear step-by-step reasoning",
+          "Correct formula application"
+        ],
+        "weaknesses": [
+          "Missing edge case verification",
+          "Could be more concise"
+        ],
+        "errors": [],
+        "suggested_changes": [
+          "Add verification for n=0 edge case",
+          "Include alternative approach"
+        ],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.8
+      }
+    ],
+    "gemini": [
+      {
+        "reviewer_id": "claude",
+        "solution_id": "gemini",
+        "strengths": [
+          "Clear step-by-step reasoning",
+          "Correct formula application"
+        ],
+        "weaknesses": [
+          "Missing edge case verification",
+          "Could be more concise"
+        ],
+        "errors": [],
+        "suggested_changes": [
+          "Add verification for n=0 edge case",
+          "Include alternative approach"
+        ],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.8
+      },
+      {
+        "reviewer_id": "grok",
+        "solution_id": "gemini",
+        "strengths": [
+          "Clear step-by-step reasoning",
+          "Correct formula application"
+        ],
+        "weaknesses": [
+          "Missing edge case verification",
+          "Could be more concise"
+        ],
+        "errors": [],
+        "suggested_changes": [
+          "Add verification for n=0 edge case",
+          "Include alternative approach"
+        ],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.8
+      }
+    ],
+    "grok": [
+      {
+        "reviewer_id": "claude",
+        "solution_id": "grok",
+        "strengths": [
+          "Clear step-by-step reasoning",
+          "Correct formula application"
+        ],
+        "weaknesses": [
+          "Missing edge case verification",
+          "Could be more concise"
+        ],
+        "errors": [],
+        "suggested_changes": [
+          "Add verification for n=0 edge case",
+          "Include alternative approach"
+        ],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.8
+      },
+      {
+        "reviewer_id": "gemini",
+        "solution_id": "grok",
+        "strengths": [
+          "Clear step-by-step reasoning",
+          "Correct formula application"
+        ],
+        "weaknesses": [
+          "Missing edge case verification",
+          "Could be more concise"
+        ],
+        "errors": [],
+        "suggested_changes": [
+          "Add verification for n=0 edge case",
+          "Include alternative approach"
+        ],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.8
+      }
+    ]
+  },
+  "refined_solutions": {
+    "claude": {
+      "original_solution_id": "claude",
+      "changes_made": [
+        {
+          "critique_id": "default_critique",
+          "accepted": true,
+          "response": "Incorporated feedback from peer reviews",
+          "changes_made": "Improved solution based on feedback"
+        }
+      ],
+      "refined_solution": "{\n                \"strengths\": [\"Clear step-by-step reasoning\", \"Correct formula application\"],\n                \"weaknesses\": [\"Missing edge case verification\", \"Could be more concise\"],\n                \"errors\": [],\n                \"suggested_changes\": [\"Add verification for n=0 edge case\", \"Include alternative approach\"],\n                \"overall_assessment\": \"promising_but_flawed\",\n                \"confidence\": 0.8\n            }",
+      "refined_answer": "0",
+      "confidence": 0.8,
+      "version": 2
+    },
+    "gemini": {
+      "original_solution_id": "gemini",
+      "changes_made": [
+        {
+          "critique_id": "default_critique",
+          "accepted": true,
+          "response": "Incorporated feedback from peer reviews",
+          "changes_made": "Improved solution based on feedback"
+        }
+      ],
+      "refined_solution": "{\n                \"strengths\": [\"Clear step-by-step reasoning\", \"Correct formula application\"],\n                \"weaknesses\": [\"Missing edge case verification\", \"Could be more concise\"],\n                \"errors\": [],\n                \"suggested_changes\": [\"Add verification for n=0 edge case\", \"Include alternative approach\"],\n                \"overall_assessment\": \"promising_but_flawed\",\n                \"confidence\": 0.8\n            }",
+      "refined_answer": "0",
+      "confidence": 0.8,
+      "version": 2
+    },
+    "grok": {
+      "original_solution_id": "grok",
+      "changes_made": [
+        {
+          "critique_id": "default_critique",
+          "accepted": true,
+          "response": "Incorporated feedback from peer reviews",
+          "changes_made": "Improved solution based on feedback"
+        }
+      ],
+      "refined_solution": "{\n                \"strengths\": [\"Clear step-by-step reasoning\", \"Correct formula application\"],\n                \"weaknesses\": [\"Missing edge case verification\", \"Could be more concise\"],\n                \"errors\": [],\n                \"suggested_changes\": [\"Add verification for n=0 edge case\", \"Include alternative approach\"],\n                \"overall_assessment\": \"promising_but_flawed\",\n                \"confidence\": 0.8\n            }",
+      "refined_answer": "0",
+      "confidence": 0.8,
+      "version": 2
+    }
+  },
+  "judgment": {
+    "winner": "claude",
+    "confidence": 0.8,
+    "reasoning": "Default judgment: Claude provided the most logical solution.",
+    "evaluation_criteria": {
+      "Logical Soundness": 8.0,
+      "Completeness": 7.5,
+      "Error Handling": 8.0,
+      "Peer Review Integration": 7.0
+    },
+    "ranking": {
+      "claude": 1,
+      "gemini": 2,
+      "grok": 3
+    }
+  },
+  "timestamp": "2026-01-10T02:19:16.118141",
+  "verifiable_answer": 0.0
+}
