@@ -1,0 +1,127 @@
+{
+  "1": {
+    "category": "Mathematical/Logical Reasoning",
+    "question": "In how many ways can you tile a 3×8 rectangle with 2×1 dominoes?",
+    "verifiable_answer": 153
+  },
+  "2": {
+    "category": "Mathematical/Logical Reasoning",
+    "question": "A fair coin is flipped 10 times. What is the probability that the number of heads is exactly twice the number of tails? Express your answer as a decimal to four decimal places.",
+    "verifiable_answer": 0.0000
+  },
+  "3": {
+    "category": "Mathematical/Logical Reasoning",
+    "question": "Find the smallest positive integer n such that n! ends with exactly 20 zeros in base 10.",
+    "verifiable_answer": 85
+  },
+  "4": {
+    "category": "Mathematical/Logical Reasoning",
+    "question": "Find the number of integer solutions to the equation x + y + z = 20, where x, y, z are nonnegative integers and x ≤ 10, y ≤ 5, z ≤ 15.",
+    "verifiable_answer": 51
+  },
+  "5": {
+    "category": "Mathematical/Logical Reasoning",
+    "question": "How many positive integers less than 1000 are divisible by 7, 11, or 13?",
+    "verifiable_answer": 280
+  },
+  "6": {
+    "category": "Mathematical/Logical Reasoning",
+    "question": "Solve the recurrence relation: aₙ = 3aₙ₋₁ - 2aₙ₋₂ with a₀=1, a₁=3.",
+    "verifiable_answer": "aₙ = 2ⁿ⁺¹ - 1"
+  },
+  "7": {
+    "category": "Mathematical/Logical Reasoning",
+    "question": "How many ways are there to choose 5 cards from a standard 52-card deck such that the hand contains at least one card from each suit?",
+    "verifiable_answer": 685464
+  },
+  "8": {
+    "category": "Physics & Scientific Reasoning",
+    "question": "A ladder of length L and mass M leans against a frictionless wall. The coefficient of static friction between the ladder and the ground is μ. Derive the minimum angle θ (with respect to the ground) at which the ladder does not slip.",
+    "verifiable_answer": "θ ≥ arctan(1/(2μ))"
+  },
+  "9": {
+    "category": "Physics & Scientific Reasoning",
+    "question": "A block of mass m is placed on a frictionless inclined plane at angle θ. A spring of spring constant k is attached to the block and to a fixed support at the top of the incline. The block is released from rest when the spring is unstretched. Find the maximum extension of the spring.",
+    "verifiable_answer": "x = (2mg sinθ)/k"
+  },
+  "10": {
+    "category": "Physics & Scientific Reasoning",
+    "question": "A car is driving at a constant speed v over a hill that is shaped as a circular arc of radius R. At the top of the hill, the driver feels weightless. What is the speed v?",
+    "verifiable_answer": "v = √(gR)"
+  },
+  "11": {
+    "category": "Physics & Scientific Reasoning",
+    "question": "Two trains are on the same track, 100 km apart, heading toward each other. One train travels at 60 km/h, the other at 40 km/h. A bird flies back and forth between the trains at 80 km/h. How far does the bird travel before the trains collide?",
+    "verifiable_answer": "80 km"
+  },
+  "12": {
+    "category": "Physics & Scientific Reasoning",
+    "question": "A hot air balloon is rising at a constant velocity of 5 m/s. When the balloon is 20 m above the ground, a sandbag is released from it. How long does it take for the sandbag to hit the ground? (Take g=10 m/s²)",
+    "verifiable_answer": "t = (1 + √17)/2 ≈ 2.56 seconds"
+  },
+  "13": {
+    "category": "Physics & Scientific Reasoning",
+    "question": "A cylindrical tank of radius R and height H is filled with water. A small hole of radius r is punched at the bottom. Derive the time it takes for the tank to empty, assuming Torricelli's law.",
+    "verifiable_answer": "T = (R²/r²) √(2H/g)"
+  },
+  "14": {
+    "category": "Logic Puzzles & Constraint Satisfaction",
+    "question": "There are five houses in a row, each of a different color. The owners have different nationalities, drink different beverages, smoke different brands of cigarettes, and keep different pets. The Englishman lives in the red house. The Spaniard owns the dog. Coffee is drunk in the green house. The Ukrainian drinks tea. The green house is immediately to the right of the ivory house. The Old Gold smoker owns snails. Kools are smoked in the yellow house. Milk is drunk in the middle house. The Norwegian lives in the first house. The man who smokes Chesterfields lives in the house next to the man with the fox. Kools are smoked in the house next to the house where the horse is kept. The Lucky Strike smoker drinks orange juice. The Japanese smokes Parliaments. The Norwegian lives next to the blue house. Who drinks water? And who owns the zebra?",
+    "verifiable_answer": "The Norwegian drinks water; the Japanese owns the zebra"
+  },
+  "15": {
+    "category": "Logic Puzzles & Constraint Satisfaction",
+    "question": "On an island, there are two types of people: knights who always tell the truth, and knaves who always lie. You meet two people, A and B. A says: 'At least one of us is a knave.' B says: 'A is a knave.' Determine the types of A and B.",
+    "verifiable_answer": "A is a knight; B is a knave"
+  },
+  "16": {
+    "category": "Logic Puzzles & Constraint Satisfaction",
+    "question": "Three boxes are labeled 'Apples', 'Oranges', and 'Apples and Oranges'. Each label is incorrect. You are allowed to pick one fruit from one box (without looking inside). How can you determine the correct labels?",
+    "verifiable_answer": "Pick from the 'Apples and Oranges' box. If you get an apple, that box is 'Apples'; then the 'Oranges' box must be mixed, and the 'Apples' box must be oranges."
+  },
+  "17": {
+    "category": "Logic Puzzles & Constraint Satisfaction",
+    "question": "You are in a room with three light switches, each controlling one of three light bulbs in another room. You cannot see the bulbs from the switch room. You can turn the switches on and off as many times as you want, but you can only enter the bulb room once. How do you determine which switch controls which bulb?",
+    "verifiable_answer": "Turn switch 1 on for a few minutes, then turn it off. Turn switch 2 on and leave it on. Enter the bulb room: the on bulb is switch 2, the warm off bulb is switch 1, the cold off bulb is switch 3."
+  },
+  "18": {
+    "category": "Logic Puzzles & Constraint Satisfaction",
+    "question": "There are 12 identical-looking coins, but one is counterfeit and differs in weight (heavier or lighter). Using a balance scale only three times, how can you identify the counterfeit coin and determine whether it is heavier or lighter?",
+    "verifiable_answer": "Divide into three groups of four. Weigh group 1 vs group 2. If equal, counterfeit is in group 3; if unequal, counterfeit is in the heavier or lighter group. Subsequent weighings isolate the coin and determine its weight relative to genuine coins."
+  },
+  "19": {
+    "category": "Logic Puzzles & Constraint Satisfaction",
+    "question": "Five people are sitting in a row. Each person is either a truth-teller (always tells the truth) or a liar (always lies). They make the following statements: Person 1: 'The person to my right is a liar.' Person 2: 'The person to my left is a liar.' Person 3: 'I am sitting between two liars.' Person 4: 'There are exactly three truth-tellers among us.' Person 5: 'Person 4 is a liar.' Determine the types of all five people.",
+    "verifiable_answer": "Person 1: liar, Person 2: truth-teller, Person 3: liar, Person 4: liar, Person 5: truth-teller"
+  },
+  "20": {
+    "category": "Strategic Game Theory",
+    "question": "In a two-player auction where bids are sealed and the highest bidder pays the second-highest bid (Vickrey auction), what is the optimal bidding strategy for a rational player with valuation v for the item, assuming common knowledge of rationality?",
+    "verifiable_answer": "Bid exactly v"
+  },
+  "21": {
+    "category": "Strategic Game Theory",
+    "question": "Two players play a game where they simultaneously choose a number between 0 and 100. The player who chooses the number closest to two-thirds of the average of all numbers wins a prize. What is the Nash equilibrium of this game?",
+    "verifiable_answer": "Both players choose 0"
+  },
+  "22": {
+    "category": "Strategic Game Theory",
+    "question": "In the iterated prisoner's dilemma, what is the strategy that won the famous Axelrod tournament?",
+    "verifiable_answer": "Tit-for-tat"
+  },
+  "23": {
+    "category": "Strategic Game Theory",
+    "question": "Two players take turns taking coins from a pile of 100 coins. Each player can take 1, 2, 3, 4, or 5 coins on their turn. The player who takes the last coin wins. What is the winning strategy for the first player?",
+    "verifiable_answer": "Take 4 coins initially, then always take 6 minus the number the opponent just took"
+  },
+  "24": {
+    "category": "Strategic Game Theory",
+    "question": "A company is deciding whether to enter a market. If it enters, it must choose a price (High or Low). The incumbent firm then chooses whether to accommodate or fight (by starting a price war). The payoffs: If the entrant stays out, both get 0. If it enters and prices High and the incumbent accommodates, both get 5. If the entrant prices High and the incumbent fights, the entrant gets -5 and the incumbent gets 2. If the entrant prices Low and the incumbent accommodates, the entrant gets 3 and the incumbent gets 1. If the entrant prices Low and the incumbent fights, both get -1. Draw the game tree and find the subgame perfect Nash equilibrium.",
+    "verifiable_answer": "Entrant enters and prices High; incumbent accommodates"
+  },
+  "25": {
+    "category": "Strategic Game Theory",
+    "question": "In a sealed-bid first-price auction with two risk-neutral bidders, each bidder's valuation is independently drawn from a uniform distribution on [0,1]. What is the symmetric Bayesian Nash equilibrium bidding strategy?",
+    "verifiable_answer": "b(v) = v/2"
+  }
+}
