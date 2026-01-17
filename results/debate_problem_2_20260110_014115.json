@@ -1,0 +1,144 @@
+{
+  "problem_id": 2,
+  "problem": "A fair coin is flipped 10 times. What is the probability that the number of heads is exactly twice the number of tails? Express your answer as a decimal to four decimal places.",
+  "roles": {
+    "judge": "gpt-4",
+    "solvers": [
+      "claude",
+      "gemini",
+      "grok"
+    ]
+  },
+  "original_solutions": {
+    "claude": {
+      "solver_id": "claude",
+      "solution_text": "",
+      "final_answer": "",
+      "confidence": 0.0,
+      "reasoning_steps": [],
+      "assumptions": [],
+      "timestamp": "2026-01-10T01:41:15.503256"
+    },
+    "gemini": {
+      "solver_id": "gemini",
+      "solution_text": "",
+      "final_answer": "",
+      "confidence": 0.0,
+      "reasoning_steps": [],
+      "assumptions": [],
+      "timestamp": "2026-01-10T01:41:15.503256"
+    },
+    "grok": {
+      "solver_id": "grok",
+      "solution_text": "",
+      "final_answer": "",
+      "confidence": 0.0,
+      "reasoning_steps": [],
+      "assumptions": [],
+      "timestamp": "2026-01-10T01:41:15.503256"
+    }
+  },
+  "peer_reviews": {
+    "claude": [
+      {
+        "reviewer_id": "gemini",
+        "solution_id": "claude",
+        "strengths": [],
+        "weaknesses": [],
+        "errors": [],
+        "suggested_changes": [],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.0
+      },
+      {
+        "reviewer_id": "grok",
+        "solution_id": "claude",
+        "strengths": [],
+        "weaknesses": [],
+        "errors": [],
+        "suggested_changes": [],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.0
+      }
+    ],
+    "gemini": [
+      {
+        "reviewer_id": "claude",
+        "solution_id": "gemini",
+        "strengths": [],
+        "weaknesses": [],
+        "errors": [],
+        "suggested_changes": [],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.0
+      },
+      {
+        "reviewer_id": "grok",
+        "solution_id": "gemini",
+        "strengths": [],
+        "weaknesses": [],
+        "errors": [],
+        "suggested_changes": [],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.0
+      }
+    ],
+    "grok": [
+      {
+        "reviewer_id": "claude",
+        "solution_id": "grok",
+        "strengths": [],
+        "weaknesses": [],
+        "errors": [],
+        "suggested_changes": [],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.0
+      },
+      {
+        "reviewer_id": "gemini",
+        "solution_id": "grok",
+        "strengths": [],
+        "weaknesses": [],
+        "errors": [],
+        "suggested_changes": [],
+        "overall_assessment": "promising_but_flawed",
+        "confidence": 0.0
+      }
+    ]
+  },
+  "refined_solutions": {
+    "claude": {
+      "original_solution_id": "claude",
+      "changes_made": [],
+      "refined_solution": "",
+      "refined_answer": "",
+      "confidence": 0.0,
+      "version": 2
+    },
+    "gemini": {
+      "original_solution_id": "gemini",
+      "changes_made": [],
+      "refined_solution": "",
+      "refined_answer": "",
+      "confidence": 0.0,
+      "version": 2
+    },
+    "grok": {
+      "original_solution_id": "grok",
+      "changes_made": [],
+      "refined_solution": "",
+      "refined_answer": "",
+      "confidence": 0.0,
+      "version": 2
+    }
+  },
+  "judgment": {
+    "winner": "",
+    "confidence": 0.0,
+    "reasoning": "",
+    "evaluation_criteria": {},
+    "ranking": {}
+  },
+  "timestamp": "2026-01-10T01:41:15.504768",
+  "verifiable_answer": 0.0
+}
