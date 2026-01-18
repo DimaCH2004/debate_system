@@ -111,7 +111,7 @@ class LLMClient:
 
             genai.configure(api_key=api_key)
 
-            model = genai.GenerativeModel('gemini-pro')
+            model = genai.GenerativeModel('gemini-3-flash-preview')
             response = model.generate_content(
                 prompt,
                 generation_config={
