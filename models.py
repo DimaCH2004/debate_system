@@ -1,5 +1,5 @@
-from dataclasses import dataclass, asdict
-from typing import Dict, List, Optional, Any
+from dataclasses import dataclass
+from typing import Dict, List
 from enum import Enum
 
 
@@ -8,8 +8,6 @@ class ErrorType(Enum):
     CALCULATION_ERROR = "calculation_error"
     ASSUMPTION_ERROR = "assumption_error"
     MISSING_CASE = "missing_case"
-    CONTRADICTION = "contradiction"
-    AMBIGUITY = "ambiguity"
 
 
 class Severity(Enum):
@@ -24,7 +22,6 @@ class Assessment(Enum):
     PROMISING_BUT_FLAWED = "promising_but_flawed"
     FUNDAMENTALLY_FLAWED = "fundamentally_flawed"
     INCOMPLETE = "incomplete"
-    UNCLEAR = "unclear"
 
 
 @dataclass
@@ -69,7 +66,6 @@ class Solution:
     confidence: float
     reasoning_steps: List[str]
     assumptions: List[str]
-    timestamp: str = ""
 
     def to_dict(self):
         return {
@@ -78,8 +74,7 @@ class Solution:
             "final_answer": self.final_answer,
             "confidence": self.confidence,
             "reasoning_steps": self.reasoning_steps,
-            "assumptions": self.assumptions,
-            "timestamp": self.timestamp
+            "assumptions": self.assumptions
         }
 
 
@@ -100,7 +95,7 @@ class PeerReview:
             "solution_id": self.solution_id,
             "strengths": self.strengths,
             "weaknesses": self.weaknesses,
-            "errors": [error.to_dict() for error in self.errors],
+            "errors": [e.to_dict() for e in self.errors],
             "suggested_changes": self.suggested_changes,
             "overall_assessment": self.overall_assessment.value,
             "confidence": self.confidence
@@ -130,32 +125,12 @@ class RefinedSolution:
     refined_solution: str
     refined_answer: str
     confidence: float
-    version: int = 2
 
     def to_dict(self):
         return {
             "original_solution_id": self.original_solution_id,
-            "changes_made": [change.to_dict() for change in self.changes_made],
+            "changes_made": [c.to_dict() for c in self.changes_made],
             "refined_solution": self.refined_solution,
             "refined_answer": self.refined_answer,
-            "confidence": self.confidence,
-            "version": self.version
-        }
-
-
-@dataclass
-class Judgment:
-    winner: str
-    confidence: float
-    reasoning: str
-    evaluation_criteria: Dict[str, float]
-    ranking: Dict[str, int]
-
-    def to_dict(self):
-        return {
-            "winner": self.winner,
-            "confidence": self.confidence,
-            "reasoning": self.reasoning,
-            "evaluation_criteria": self.evaluation_criteria,
-            "ranking": self.ranking
+            "confidence": self.confidence
         }
