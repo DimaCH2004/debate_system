@@ -1,14 +1,9 @@
-"""
-Configuration for Multi-Gemini Debate System
-"""
-
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Any
 
 
 @dataclass
 class GeminiConfig:
-    """Configuration for a Gemini instance"""
     name: str
     instance_id: str
     model: str = "gemini-3-flash-preview"
@@ -17,7 +12,6 @@ class GeminiConfig:
 
 @dataclass
 class Problem:
-    """Problem definition"""
     id: int
     category: str
     question: str
@@ -25,7 +19,6 @@ class Problem:
     difficulty: str = "high"
 
 
-# 4 Gemini instances configuration
 GEMINI_INSTANCES = {
     "gemini-1": GeminiConfig(
         name="Gemini Instance 1",
