@@ -1,8 +1,3 @@
-"""
-LLM Client - Gemini Only
-Handles 4 separate Gemini instances
-"""
-
 import os
 import logging
 from dotenv import load_dotenv
@@ -12,16 +7,12 @@ logger = logging.getLogger(__name__)
 
 
 class LLMClient:
-    """Client for making Gemini API calls"""
 
     def __init__(self):
-        # Check mock mode
         mock_mode = os.getenv("USE_MOCK_MODE", "true").lower()
         self.use_mock_mode = mock_mode != "false"
 
         logger.info(f"LLMClient initialized. Mock mode: {self.use_mock_mode}")
-
-        # Initialize Gemini clients
         self.clients = {}
         self.use_new_api = False
 
@@ -31,20 +22,16 @@ class LLMClient:
             logger.info("Running in mock mode - using simulated responses")
 
     def _initialize_gemini_clients(self):
-        """Initialize 4 separate Gemini clients"""
         try:
-            # Try new google.genai package first
             try:
                 from google import genai
                 self.use_new_api = True
                 logger.info("Using google.genai SDK")
             except ImportError:
-                # Fallback to old package
                 import google.generativeai as genai
                 self.use_new_api = False
                 logger.info("Using google.generativeai SDK (legacy)")
 
-            # Initialize 4 separate Gemini instances
             gemini_configs = {
                 "gemini-1": os.getenv("GEMINI_1_API_KEY"),
                 "gemini-2": os.getenv("GEMINI_2_API_KEY"),
@@ -53,13 +40,11 @@ class LLMClient:
             }
 
             for name, api_key in gemini_configs.items():
-                if api_key and len(api_key) > 10:  # Basic validation
+                if api_key and len(api_key) > 10:
                     try:
                         if self.use_new_api:
-                            # For new google.genai
                             client = genai.Client(api_key=api_key)
                         else:
-                            # For old google.generativeai
                             client = {
                                 'module': genai,
                                 'api_key': api_key
@@ -79,17 +64,6 @@ class LLMClient:
             logger.info("Install with: pip install google-genai")
 
     def call_llm(self, instance_name: str, prompt: str, temperature: float = 0.1) -> str:
-        """
-        Call a specific Gemini instance
-
-        Args:
-            instance_name: Name of the instance (gemini-1, gemini-2, gemini-3, gemini-4)
-            prompt: The prompt to send
-            temperature: Temperature parameter
-
-        Returns:
-            Response string from Gemini
-        """
         if self.use_mock_mode:
             return self._get_mock_response(instance_name, prompt)
 
@@ -107,7 +81,6 @@ class LLMClient:
             return self._get_mock_response(instance_name, prompt)
 
     def _call_gemini(self, instance_name: str, prompt: str, temperature: float) -> str:
-        """Call a specific Gemini instance"""
         if instance_name not in self.clients:
             # Try to use any available client
             if self.clients:
@@ -119,7 +92,6 @@ class LLMClient:
         client = self.clients[instance_name]
 
         if self.use_new_api:
-            # NEW API (google.genai)
             try:
                 response = client.models.generate_content(
                     model='gemini-3-flash-preview',
@@ -134,11 +106,9 @@ class LLMClient:
                 logger.error(f"API call failed: {e}")
                 raise
         else:
-            # OLD API (google.generativeai)
             genai = client['module']
             api_key = client['api_key']
 
-            # Configure for this specific call
             genai.configure(api_key=api_key)
 
             model = genai.GenerativeModel('gemini-pro')
@@ -152,26 +122,19 @@ class LLMClient:
             return response.text
 
     def _get_mock_response(self, instance_name: str, prompt: str) -> str:
-        """Generate mock responses for testing"""
-        prompt_lower = prompt.lower()
 
-        # Role preference responses
+        prompt_lower = prompt.lower()
         if "role" in prompt_lower and "preference" in prompt_lower:
-            # gemini-1 prefers Judge role
             if "gemini-1" == instance_name:
                 return """Preferred roles (in order): ["Judge", "Solver"]
 Confidence by role: {"Solver": 0.85, "Judge": 0.88}
 Reasoning: I'm excellent at evaluating multiple perspectives objectively.
 Self-assessment: Strong analytical and comparative skills."""
-            # Others prefer Solver role
             else:
                 return """Preferred roles (in order): ["Solver", "Judge"]
 Confidence by role: {"Solver": 0.85, "Judge": 0.75}
 Reasoning: I excel at detailed analytical reasoning and comprehensive solutions.
 Self-assessment: Strong at breaking down complex problems step-by-step."""
-
-        # IMPORTANT: Check for refinement BEFORE peer review
-        # (refinement prompts contain peer review data)
         elif "refine" in prompt_lower or "your original solution" in prompt_lower:
             if "factorial" in prompt or "20 zeros" in prompt or "n!" in prompt:
                 return """Changes Made:
@@ -225,13 +188,9 @@ Confidence: 0.90"""
   "overall_assessment": "promising_but_flawed",
   "confidence": 0.82
 }"""
-
-        # Judgment responses
         elif "judge" in prompt_lower or "winner" in prompt_lower or "best solution" in prompt_lower:
             import re
             import json as json_lib
-
-            # Extract solver names from prompt
             solvers = []
             try:
                 matches = re.findall(r'"solver_id":\s*"([^"]+)"', prompt)
@@ -266,7 +225,6 @@ Confidence: 0.90"""
                 "ranking": {solver: i + 1 for i, solver in enumerate(solvers)}
             }, indent=2)
 
-        # Solution generation responses
         else:
             if "factorial" in prompt or "20 zeros" in prompt or "n!" in prompt:
                 return """Reasoning Steps:
