@@ -2,17 +2,19 @@ import os
 import logging
 from dotenv import load_dotenv
 
+from config import GEMINI_INSTANCES, MAX_TOKENS, DEFAULT_TEMPERATURE
+
 load_dotenv()
 logger = logging.getLogger(__name__)
 
 
 class LLMClient:
-
     def __init__(self):
         mock_mode = os.getenv("USE_MOCK_MODE", "true").lower()
         self.use_mock_mode = mock_mode != "false"
 
         logger.info(f"LLMClient initialized. Mock mode: {self.use_mock_mode}")
+
         self.clients = {}
         self.use_new_api = False
 
@@ -26,103 +28,153 @@ class LLMClient:
             try:
                 from google import genai
                 self.use_new_api = True
-                logger.info("Using google.genai SDK")
+                logger.info("Using google.genai SDK (new)")
+                self._init_new_sdk(genai)
+                return
             except ImportError:
-                import google.generativeai as genai
                 self.use_new_api = False
-                logger.info("Using google.generativeai SDK (legacy)")
+                logger.info("google.genai not found, falling back to google.generativeai (legacy)")
 
-            gemini_configs = {
-                "gemini-1": os.getenv("GEMINI_1_API_KEY"),
-                "gemini-2": os.getenv("GEMINI_2_API_KEY"),
-                "gemini-3": os.getenv("GEMINI_3_API_KEY"),
-                "gemini-4": os.getenv("GEMINI_4_API_KEY"),
-            }
-
-            for name, api_key in gemini_configs.items():
-                if api_key and len(api_key) > 10:
-                    try:
-                        if self.use_new_api:
-                            client = genai.Client(api_key=api_key)
-                        else:
-                            client = {
-                                'module': genai,
-                                'api_key': api_key
-                            }
-
-                        self.clients[name] = client
-                        logger.info(f"✓ {name} initialized")
-                    except Exception as e:
-                        logger.warning(f"Failed to initialize {name}: {e}")
-
-            if not self.clients:
-                logger.warning("No Gemini clients initialized. Check your API keys in .env")
-                logger.info("You can use the same API key for all 4 instances")
+            import google.generativeai as genai  # noqa: F401
+            self._init_legacy_sdk()
 
         except Exception as e:
-            logger.error(f"Failed to import Gemini: {e}")
-            logger.info("Install with: pip install google-genai")
+            logger.error(f"Failed to initialize Gemini clients: {e}", exc_info=True)
+            logger.info("Install new SDK with: pip install -U google-genai")
 
-    def call_llm(self, instance_name: str, prompt: str, temperature: float = 0.1) -> str:
+    def _init_new_sdk(self, genai_module):
+        gemini_keys = {
+            "gemini-1": os.getenv("GEMINI_1_API_KEY"),
+            "gemini-2": os.getenv("GEMINI_2_API_KEY"),
+            "gemini-3": os.getenv("GEMINI_3_API_KEY"),
+            "gemini-4": os.getenv("GEMINI_4_API_KEY"),
+        }
+
+        for instance_id, api_key in gemini_keys.items():
+            if api_key and len(api_key) > 10:
+                try:
+                    client = genai_module.Client(api_key=api_key)
+                    self.clients[instance_id] = client
+                    logger.info(f"✓ {instance_id} initialized (new SDK)")
+                except Exception as e:
+                    logger.warning(f"Failed to initialize {instance_id} (new SDK): {e}")
+
+        if not self.clients:
+            logger.warning("No Gemini clients initialized. Check your API keys in .env")
+            logger.info("You can use the same API key for all 4 instances")
+
+    def _init_legacy_sdk(self):
+        gemini_keys = {
+            "gemini-1": os.getenv("GEMINI_1_API_KEY"),
+            "gemini-2": os.getenv("GEMINI_2_API_KEY"),
+            "gemini-3": os.getenv("GEMINI_3_API_KEY"),
+            "gemini-4": os.getenv("GEMINI_4_API_KEY"),
+        }
+
+        for instance_id, api_key in gemini_keys.items():
+            if api_key and len(api_key) > 10:
+                self.clients[instance_id] = {"api_key": api_key}
+                logger.info(f"✓ {instance_id} initialized (legacy SDK)")
+
+        if not self.clients:
+            logger.warning("No Gemini clients initialized. Check your API keys in .env")
+            logger.info("You can use the same API key for all 4 instances")
+
+    def call_llm(self, instance_name: str, prompt: str, temperature: float = None) -> str:
         if self.use_mock_mode:
             return self._get_mock_response(instance_name, prompt)
 
+        if not instance_name.startswith("gemini-"):
+            logger.warning(f"Invalid instance name: {instance_name}, using gemini-1")
+            instance_name = "gemini-1"
+
+        cfg = GEMINI_INSTANCES.get(instance_name)
+        model_name = cfg.model if cfg else "gemini-3-flash-preview"
+
+        if temperature is None:
+            temperature = cfg.temperature if cfg else DEFAULT_TEMPERATURE
+
         try:
-            # Ensure it's a valid gemini instance
-            if not instance_name.startswith("gemini-"):
-                logger.warning(f"Invalid instance name: {instance_name}, using gemini-1")
-                instance_name = "gemini-1"
-
-            return self._call_gemini(instance_name, prompt, temperature)
-
+            if self.use_new_api:
+                return self._call_new_sdk(instance_name, model_name, prompt, temperature)
+            return self._call_legacy_sdk(instance_name, model_name, prompt, temperature)
         except Exception as e:
-            logger.error(f"Error calling {instance_name}: {e}")
+            logger.error(f"Error calling {instance_name}: {e}", exc_info=True)
             logger.warning("Falling back to mock response")
             return self._get_mock_response(instance_name, prompt)
 
-    def _call_gemini(self, instance_name: str, prompt: str, temperature: float) -> str:
+    def _call_new_sdk(self, instance_name: str, model_name: str, prompt: str, temperature: float) -> str:
         if instance_name not in self.clients:
-            # Try to use any available client
             if self.clients:
                 instance_name = list(self.clients.keys())[0]
-                logger.warning(f"Using {instance_name} as fallback")
+                logger.warning(f"Using {instance_name} as fallback (new SDK)")
             else:
                 raise ValueError("No Gemini clients initialized")
 
         client = self.clients[instance_name]
+        response = client.models.generate_content(
+            model=model_name,
+            contents=prompt,
+            config={
+                "temperature": float(temperature),
+                "max_output_tokens": int(MAX_TOKENS),
+            },
+        )
+        return getattr(response, "text", "") or ""
 
-        if self.use_new_api:
+    def _call_legacy_sdk(self, instance_name: str, model_name: str, prompt: str, temperature: float) -> str:
+        if instance_name not in self.clients:
+            if self.clients:
+                instance_name = list(self.clients.keys())[0]
+                logger.warning(f"Using {instance_name} as fallback (legacy SDK)")
+            else:
+                raise ValueError("No Gemini clients initialized")
+
+        import google.generativeai as genai
+
+        api_key = self.clients[instance_name]["api_key"]
+        genai.configure(api_key=api_key)
+
+        model = genai.GenerativeModel(model_name)
+
+        response = model.generate_content(
+            prompt,
+            generation_config={
+                "temperature": float(temperature),
+                "max_output_tokens": int(MAX_TOKENS),
+            },
+        )
+
+        try:
+            return response.text or ""
+        except Exception:
             try:
-                response = client.models.generate_content(
-                    model='gemini-3-flash-preview',
-                    contents=prompt,
-                    config={
-                        'temperature': temperature,
-                        'max_output_tokens': 2000,
-                    }
-                )
-                return response.text
-            except Exception as e:
-                logger.error(f"API call failed: {e}")
-                raise
-        else:
-            genai = client['module']
-            api_key = client['api_key']
+                candidates = getattr(response, "candidates", None) or []
+                if candidates:
+                    content = getattr(candidates[0], "content", None)
+                    parts = getattr(content, "parts", None) or []
+                    collected = []
+                    for p in parts:
+                        t = getattr(p, "text", None)
+                        if t:
+                            collected.append(t)
+                    text = "".join(collected).strip()
+                    if text:
+                        return text
+            except Exception:
+                pass
 
-            genai.configure(api_key=api_key)
+            try:
+                candidates = getattr(response, "candidates", None) or []
+                if candidates:
+                    fr = getattr(candidates[0], "finish_reason", None)
+                    logger.warning(f"Legacy response returned no text parts (finish_reason={fr}).")
+            except Exception:
+                pass
 
-            model = genai.GenerativeModel('gemini-pro')
-            response = model.generate_content(
-                prompt,
-                generation_config={
-                    'temperature': temperature,
-                    'max_output_tokens': 2000,
-                }
-            )
-            return response.text
+            return ""
 
     def _get_mock_response(self, instance_name: str, prompt: str) -> str:
-
         prompt_lower = prompt.lower()
         if "role" in prompt_lower and "preference" in prompt_lower:
             if "gemini-1" == instance_name:
@@ -177,8 +229,6 @@ Solution confirmed through multiple methods.
 
 Refined Answer: 42
 Confidence: 0.90"""
-
-        # Peer review responses
         elif "review" in prompt_lower or "critique" in prompt_lower or "evaluate" in prompt_lower:
             return """{
   "strengths": ["Clear logical structure", "Correct application of formulas", "Well-explained reasoning"],
@@ -188,80 +238,8 @@ Confidence: 0.90"""
   "overall_assessment": "promising_but_flawed",
   "confidence": 0.82
 }"""
-        elif "judge" in prompt_lower or "winner" in prompt_lower or "best solution" in prompt_lower:
-            import re
-            import json as json_lib
-            solvers = []
-            try:
-                matches = re.findall(r'"solver_id":\s*"([^"]+)"', prompt)
-                if matches:
-                    solvers = list(dict.fromkeys(matches))
-
-                if not solvers and "refined_solutions" in prompt:
-                    refined_match = re.search(r'"refined_solutions":\s*\{([^}]+)\}', prompt, re.DOTALL)
-                    if refined_match:
-                        content = refined_match.group(1)
-                        solver_matches = re.findall(r'"([^"]+)":', content)
-                        if solver_matches:
-                            solvers = list(dict.fromkeys(solver_matches))
-            except Exception as e:
-                logger.debug(f"Error extracting solvers: {e}")
-
-            if not solvers:
-                solvers = ["gemini-2", "gemini-3", "gemini-4"]
-
-            winner = solvers[0] if solvers else "gemini-2"
-
-            return json_lib.dumps({
-                "winner": winner,
-                "confidence": 0.87,
-                "reasoning": f"{winner}'s solution demonstrated the strongest logical rigor and most complete analysis.",
-                "evaluation_criteria": {
-                    "Logical Soundness": 9.2,
-                    "Completeness": 8.8,
-                    "Error Handling": 8.5,
-                    "Peer Review Integration": 8.7
-                },
-                "ranking": {solver: i + 1 for i, solver in enumerate(solvers)}
-            }, indent=2)
-
         else:
-            if "factorial" in prompt or "20 zeros" in prompt or "n!" in prompt:
-                return """Reasoning Steps:
-1. Trailing zeros in n! come from factors of 10 = 2×5
-2. Since factors of 2 are more abundant than 5, we count factors of 5
-3. Legendre's formula: zeros = floor(n/5) + floor(n/25) + floor(n/125) + ...
-4. We need this sum to equal exactly 20
-5. Testing values: n=80 gives 16+3=19, n=85 gives 17+3=20
-6. Verified: 85 is the smallest n where n! has exactly 20 trailing zeros
-
-Assumptions:
-- Counting trailing zeros in decimal representation
-- Using standard factorial definition
-
-Final Answer: 85
-Confidence: 0.93"""
-
-            elif "probability" in prompt or "coin" in prompt or "heads is exactly twice" in prompt:
-                return """Reasoning Steps:
-1. Let H = number of heads, T = number of tails
-2. Given: H + T = 10 (total flips)
-3. Condition: H = 2T (heads exactly twice tails)
-4. Substituting: 2T + T = 10, so 3T = 10
-5. This gives T = 10/3 ≈ 3.333...
-6. Since T must be a whole number and 10/3 is not an integer, no valid outcome exists
-7. Therefore, the probability is 0
-
-Assumptions:
-- Fair coin with P(H) = P(T) = 0.5
-- Independent flips
-- "Exactly twice" means H = 2T exactly
-
-Final Answer: 0.0000
-Confidence: 0.95"""
-
-            else:
-                return """Reasoning Steps:
+            return """Reasoning Steps:
 1. Analyzed the problem requirements carefully
 2. Identified the key constraints and variables
 3. Applied relevant mathematical principles
