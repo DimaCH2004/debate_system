@@ -103,19 +103,27 @@ class DebateSystem:
         )
 
         if not isinstance(judgment, dict):
-            judgment = {
-                "winner": roles["solvers"][0],
-                "confidence": 0.8,
-                "reasoning": "Default judgment",
-                "evaluation_criteria": {},
-                "ranking": {}
-            }
+            raise RuntimeError("Judgment system returned non-dict result.")
 
-        winner = judgment.get('winner', roles["solvers"][0])
-        confidence = judgment.get('confidence', 0.8)
+        if judgment.get("warning"):
+            logger.warning("Judge parsing failed: %s", judgment.get("error"))
+            raw = judgment.get("raw_judge_output", "")
+            if raw:
+                logger.warning("Raw judge output:\n%s", raw)
+
+        winner = judgment.get("winner")
+        confidence = judgment.get("confidence")
 
         logger.info(f"  Winner: {winner}")
-        logger.info(f"  Confidence: {confidence:.2%}")
+
+        if isinstance(confidence, (int, float)):
+            logger.info(f"  Confidence: {confidence:.2%}")
+        else:
+            logger.warning("  Confidence: (missing/invalid)")
+
+        # If no valid winner dont do that stupid fking dfefault shit that gives lies.
+        if not winner:
+            raise RuntimeError(f"No valid winner selected by judge: {judgment.get('error')}")
 
         result = {
             "problem_id": problem_id,
@@ -191,12 +199,18 @@ def main():
         print(f"   Judge: {result['roles']['judge']}")
         print(f"   Solvers: {', '.join(result['roles']['solvers'])}")
 
-        print(f"\nWinner: {result['judgment']['winner']}")
-        print(f"Confidence: {result['judgment']['confidence']:.1%}")
+        w = result["judgment"].get("winner")
+        c = result["judgment"].get("confidence")
 
-        winner = result['judgment']['winner']
+        print(f"\nWinner: {w if w else '(none)'}")
+        if isinstance(c, (int, float)):
+            print(f"Confidence: {c:.1%}")
+        else:
+            print("Confidence: (missing/invalid)")
+
+        winner = w
         refined_answer_raw = ""
-        if winner in result['refined_solutions']:
+        if winner and winner in result['refined_solutions']:
             refined_answer_raw = result['refined_solutions'][winner]['refined_answer']
             print(f"\nWinner's Answer: {refined_answer_raw}")
 

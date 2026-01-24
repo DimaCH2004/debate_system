@@ -47,7 +47,7 @@ DATASET_PATH = "dataset/problems.json"
 RESULTS_PATH = "results/"
 
 # Generation parameters
-MAX_TOKENS = 2000
+MAX_TOKENS = 5000
 DEFAULT_TEMPERATURE = 0.1
 
 # Debate parameters
